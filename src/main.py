@@ -5,8 +5,8 @@ face_path = pathlib.Path(cv2.__file__).parent.absolute() / 'data' / 'haarcascade
 face = cv2.CascadeClassifier(str(face_path))
 eye_path = pathlib.Path(cv2.__file__).parent.absolute() / 'data' / 'haarcascade_eye.xml'
 eye = cv2.CascadeClassifier(str(eye_path))
-mouth_path = pathlib.Path(cv2.__file__).parent.absolute() / 'data' / 'haarcascade_mcs_mouth.xml'
-mouth = cv2.CascadeClassifier(str(mouth_path))
+upperbody_path = pathlib.Path(cv2.__file__).parent.absolute() / 'data' / 'haarcascade_upperbody.xml'
+upperbody = cv2.CascadeClassifier(str(upperbody_path))
 camera = cv2.VideoCapture(0)
 
 while True:
@@ -14,8 +14,8 @@ while True:
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face.detectMultiScale(
         gray,
-        scaleFactor=1.03,
-        minNeighbors=8,
+        scaleFactor=1.02,
+        minNeighbors=11,
         minSize=(40, 40),
         flags =cv2.CASCADE_SCALE_IMAGE
     )
@@ -26,14 +26,12 @@ while True:
         roi_color = frame[y:y+h, x:x+w]
         eyes = eye.detectMultiScale(
             roi_gray,
-            scaleFactor = 1.03,
-            minNeighbors = 8,
+            scaleFactor = 1.02,
+            minNeighbors = 11,
         )
-        
         for (lx, ly, lw, lh) in eyes:
             cv2.ellipse(frame, (int(x+lx+lw/2), int(y+ly+lh/2)), (int(lw/3), int(lh/3)), 0, 0, 360, (128, 0, 0), 2)
             #cv2.rectangle(roi_color, (lx, ly), (lx+lw, ly+lh), (128, 0, 0), 2)
-
     cv2.imshow("Faces", frame)
     if cv2.waitKey(1) == ord('q'):
         break
