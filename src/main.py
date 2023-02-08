@@ -1,6 +1,6 @@
 import cv2
 import pathlib
-
+#face_rec
 face_path = pathlib.Path(cv2.__file__).parent.absolute() / 'data' / 'haarcascade_frontalface_default.xml'
 face = cv2.CascadeClassifier(str(face_path))
 eye_path = pathlib.Path(cv2.__file__).parent.absolute() / 'data' / 'haarcascade_eye.xml'
